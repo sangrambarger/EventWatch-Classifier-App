@@ -1,31 +1,25 @@
 ---
-name: eventwatch-classifier
+name: eventwatch_classifier_app
 description: >-
-  Enterprise AI pipeline for evaluating supply chain disruptions. 
-  Reads an Excel export, runs deduplication and fast-gate noise filtering locally, 
-  and then evaluates the remaining events against the EventWatch threshold master rules to classify them as Impactful or Not Impactful.
+  Global Bulk EventWatch Classifier. Uses progressive disclosure and highly compressed batching to classify large Excel files using the Antigravity Agent environment without external API keys, minimizing token burn.
 ---
 
-# EventWatch Impactful Classifier Skill
+# EventWatch Bulk Classifier Skill
 
-You are the **EventWatch Process Owner**. When the user invokes this skill, you must process their raw EventWatch Excel file and classify the disruptions without using an external API key.
+You are the EventWatch Master Engine. When invoked to classify an Excel file (e.g. `/eventwatch-bulk file.xlsx`), you must follow this exact 3-step progressive pipeline to ensure minimal token consumption and prevent context exhaustion.
 
-## Execution Flow
+## Phase 1: Local Pre-Processing (Zero Tokens)
+1. Use `run_command` to execute a python script that reads the user's Excel file. 
+2. The script must perform exact deduplication and simple keyword noise-filtering to eliminate as many rows as possible before hitting the LLM.
+3. The script must save the remaining rows into a highly compressed CSV format (e.g. `batch_1.csv`, `batch_2.csv`), with a maximum of 100 rows per batch. The CSV should ONLY contain `RowID` and `Title`.
 
-1. **Local Pre-Processing (Free & Instant)**
-   - The user will provide a raw Excel file (e.g., `NotImpactfulEvents.xlsx`).
-   - Run the python script to perform Multi-Tier Deduplication and Bad Article Noise Filtering.
-   - *Since this runs locally in Python, it costs 0 tokens.*
+## Phase 2: Agentic Progressive Disclosure Evaluation (Low Token Burn)
+1. Read `batch_1.csv`.
+2. Evaluate the 100 titles using the EventWatch Council Thresholds. 
+3. **CRITICAL TOKEN SAVING**: Do not output verbose rationales in your thought process. Simply output a raw CSV block mapping `RowID` -> `Classification (Impactful / Not Impactful)` -> `Event Type`.
+4. Save your output to `results_1.csv`.
+5. **PROGRESSIVE DISCLOSURE PAUSE**: Stop and ask the user: *"Batch 1/X complete. I have classified 100 events. Shall I proceed to Batch 2?"*. 
+6. Do NOT proceed to the next batch until the user explicitly approves. This prevents runaway token burn.
 
-2. **Agentic Evaluation (Token Intensive)**
-   - Extract the remaining "pending" events that need LLM evaluation.
-   - Read the `simplified_rules.txt` to understand the EventWatch Threshold Guidelines (pay special attention to Mapped Partners, Tripartite Exclusions, and the Priority Matrix).
-   - Read the pending events in batches of 30. 
-   - Use your internal reasoning to classify each event as exactly **Impactful** or **Not Impactful**, determine the **Event Type**, and write a short **Rationale**.
-
-3. **Export**
-   - Write the final classified results back to an Excel file with the strict 6-column format: `Feed Title`, `Analyst Name`, `Classification`, `Event Type`, `Rationale`, and `Feedback`.
-
-## Progressive Disclosure & Token Management
-Processing thousands of rows in the chat context will hit daily token limits. 
-**Always warn the user** before starting the Agentic Evaluation phase if the remaining row count is greater than 100, advising them that it will consume significant daily tokens, and ask if they wish to proceed with a smaller batch or the full file.
+## Phase 3: Final Export
+Once all batches are evaluated, run a final python script to merge the `results_X.csv` files back with the original dataset, preserving the Analyst Names, and export the final strict 6-column Excel report to the user's directory.
