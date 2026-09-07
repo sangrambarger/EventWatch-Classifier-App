@@ -178,7 +178,7 @@ ENTERTAINMENT_PATTERNS = re.compile(
 # 13. Hospitality & Food Service
 HOSPITALITY_PATTERNS = re.compile(
     r"(?:"
-    r"\b(?:hotel|motel|resort|restaurant|cafe|bar|beach\s*bar|pub|nightclub|eatery)\b"
+    r"\b(?:hotel|motel|resort|restaurant|cafe|bar|beach\s*bar|pub|nightclub|eatery|brewery|winery)\b"
     r")",
     re.IGNORECASE,
 )
