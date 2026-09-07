@@ -22,9 +22,11 @@ def prepare_batches(input_file, batch_size=100):
         print("Could not find a Title column.")
         return
 
-    # Deduplication
+    # Deduplication (Case-insensitive)
     initial_len = len(df)
-    df = df.drop_duplicates(subset=[title_col])
+    df['_temp_lower_title'] = df[title_col].astype(str).str.lower().str.strip()
+    df = df.drop_duplicates(subset=['_temp_lower_title'])
+    df = df.drop(columns=['_temp_lower_title'])
     dedup_len = len(df)
     print(f"Deduplication: Reduced from {initial_len} to {dedup_len} rows.")
 

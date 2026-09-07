@@ -139,12 +139,12 @@ ROUTINE_DIVIDEND_PATTERNS = re.compile(
     re.IGNORECASE,
 )
 
-# 10. Unrelated Municipal / Lifestyle Noise
+# 10. Unrelated noise (e.g., local municipality news, pure consumer product reviews, random scraping artifacts)
 UNRELATED_NOISE_PATTERNS = re.compile(
     r"(?:"
-    r"\b(?:school\s*board\s*(?:approves|votes|meets)|city\s*council\s*approves\s*(?:park|playground|rezoning))\b"
-    r"|\b(?:zoo\s*welcomes\s*baby|aquarium\s*announces\s*birth)\b"
-    r"|\b(?:horoscope|lottery\s*winner|winning\s*powerball\s*ticket|daily\s*tarot)\b"
+    r"\b(?:wfaa|local\s*school\s*board|city\s*council|town\s*hall|county\s*commission|school\s*board\s*(?:approves|votes|meets)|city\s*council\s*approves\s*(?:park|playground|rezoning))\b"
+    r"|\b(?:movie\s*review|restaurant\s*review|album\s*review|video\s*game\s*review|zoo\s*welcomes\s*baby|aquarium\s*announces\s*birth)\b"
+    r"|\b(?:astrology|horoscope|celebrity\s*gossip|red\s*carpet|lottery\s*winner|winning\s*powerball\s*ticket|daily\s*tarot)\b"
     r")",
     re.IGNORECASE,
 )
