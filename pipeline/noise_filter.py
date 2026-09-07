@@ -235,6 +235,14 @@ CLICKBAIT_PATTERNS = re.compile(
     re.IGNORECASE,
 )
 
+# 19. Cryptocurrency & Blockchain
+CRYPTO_PATTERNS = re.compile(
+    r"(?:"
+    r"\b(?:bitcoin|ethereum|crypto|cryptocurrency|defi|coinjoin|liquid\s*network|thorchain|binance|coinbase|crypto\s*hacker)\b"
+    r")",
+    re.IGNORECASE,
+)
+
 class FastGateNoiseFilter:
     """Pre-LLM fast heuristic regex filter for Bad Article Taxonomy."""
 

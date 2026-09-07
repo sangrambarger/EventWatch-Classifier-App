@@ -29,11 +29,16 @@ def prepare_batches(input_file, batch_size=100):
         print(f"Deduplication: Reduced from {initial_len} to {dedup_len} rows.")
         
         # Extract unique canonical titles and their original metadata
+        record_lookup = {r.row_id: r for r in records}
         canonical_rows = []
         for i, item in enumerate(dedup_result.canonical_items):
             row_dict = {"RowID": i + 1}
             # Add all original metadata from the representative record
-            row_dict.update(item.representative_record.metadata)
+            record = record_lookup.get(item.representative_row_id)
+            if record:
+                row_dict.update(record.metadata)
+            else:
+                row_dict["Raw Title"] = item.raw_title
             canonical_rows.append(row_dict)
         
         # Put it back in a DataFrame for batching
