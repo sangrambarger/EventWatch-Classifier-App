@@ -95,7 +95,7 @@ class MultiTierDeduplicator:
       Tier 3: Character 3-gram Jaccard / MinHash similarity clustering (threshold >= 0.75)
     """
 
-    def __init__(self, jaccard_threshold: float = 0.75) -> None:
+    def __init__(self, jaccard_threshold: float = 0.45) -> None:
         self.jaccard_threshold = jaccard_threshold
 
     def deduplicate(self, records: List[InputRecord]) -> DeduplicationResult:
