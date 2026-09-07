@@ -182,15 +182,6 @@ CLICKBAIT_PATTERNS = re.compile(
     re.IGNORECASE,
 )
 
-# 17. Generic Commodity & Stock Prices
-COMMODITY_PRICE_PATTERNS = re.compile(
-    r"^(?:"
-    r".*\b(?:oil\s*prices\s*rise|oil\s*prices\s*fall|stocks\s*(?:rally|tumble|rise|fall)|wall\s*street\s*(?:rallies|tumbles))\b.*"
-    r"|.*\b(?:gold\s*prices|crude\s*oil|stock\s*market\s*update)\b.*"
-    r")$",
-    re.IGNORECASE,
-)
-
 class FastGateNoiseFilter:
     """Pre-LLM fast heuristic regex filter for Bad Article Taxonomy."""
 
@@ -328,16 +319,6 @@ class FastGateNoiseFilter:
                 classification="Not Impactful",
                 event_type="Other",
                 rationale="Not Impactful. This is a generic clickbait article, giveaway, or hypothetical question.",
-            )
-
-        # 17. Commodity & Stock Prices
-        if COMMODITY_PRICE_PATTERNS.search(clean_title):
-            return NoiseFilterVerdict(
-                is_noise=True,
-                category="generic_market_pricing",
-                classification="Not Impactful",
-                event_type="Other",
-                rationale="Not Impactful. Routine stock market and commodity price reporting carries zero specific supply chain disruption events.",
             )
 
         # 10. Unrelated noise
