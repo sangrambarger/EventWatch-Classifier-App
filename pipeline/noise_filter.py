@@ -116,9 +116,10 @@ PROMOTIONAL_PR_PATTERNS = re.compile(
 # 7. Generic Explainers / Tutorials
 EXPLAINER_PATTERNS = re.compile(
     r"(?:"
-    r"^(?:what\s*is|what\s*are|how\s*does|how\s*to|why\s*do|why\s*is)\s+.*\?"
+    r"^(?:what\s*is|what\s*are|how\s*does|how\s*to|why\s*do|why\s*is)\b.*"
     r"|^(?:a\s*beginner'?s\s*guide\s*to|everything\s*you\s*need\s*to\s*know\s*about|the\s*ultimate\s*guide\s*to)\b"
     r"|^explainer\s*:"
+    r"|.*\bhow\s*to\s*prepare\b.*"
     r")",
     re.IGNORECASE,
 )
@@ -126,6 +127,14 @@ EXPLAINER_PATTERNS = re.compile(
 # 8. Opinion Pieces
 OPINION_PATTERNS = re.compile(
     r"^(?:op-?ed|opinion|editorial|our\s*view|guest\s*column|commentary)\s*[:\-\|\–\—]",
+    re.IGNORECASE,
+)
+
+# 8b. Minor Crime & Routine Police Reports
+CRIME_PATTERNS = re.compile(
+    r"(?:"
+    r"\b(?:stabbing|shooting|robbery|burglary|theft|assault|murder|homicide|domestic\s*violence|child\s*abuse|kidnapping|suspect\s*arrested)\b"
+    r")",
     re.IGNORECASE,
 )
 
@@ -149,6 +158,23 @@ UNRELATED_NOISE_PATTERNS = re.compile(
     re.IGNORECASE,
 )
 
+# 11. Consumer Electronics Deals/Rumors
+CONSUMER_TECH_PATTERNS = re.compile(
+    r"(?:"
+    r"\b(?:best\s*deals\s*on|iphone\s*1\d|galaxy\s*s\d+|pixel\s*\d+|apple\s*watch\s*series|black\s*friday\s*deals|cyber\s*monday)\b"
+    r"|\b(?:rumored\s*specs|leaked\s*renders|unboxing)\b"
+    r")",
+    re.IGNORECASE,
+)
+
+# 12. Local Entertainment / Events
+ENTERTAINMENT_PATTERNS = re.compile(
+    r"(?:"
+    r"\b(?:film\s*festival|concert\s*tour|art\s*exhibition|theatre\s*production|movie\s*premiere|box\s*office|comic\s*con|arcade|music\s*festival)\b"
+    r")",
+    re.IGNORECASE,
+)
+
 # 13. Hospitality
 HOSPITALITY_PATTERNS = re.compile(
     r"(?:"
@@ -168,7 +194,7 @@ REAL_ESTATE_PATTERNS = re.compile(
 # 15. Web Portal & Scraping Artifacts
 WEB_PORTAL_PATTERNS = re.compile(
     r"^(?:"
-    r".*\b(?:login|sign\s*in|my\s*account|subscribe\s*now|create\s*account|forgot\s*password|welcome\s*to)\b.*"
+    r".*\b(?:login|sign\s*in|my\s*account|subscribe\s*now|create\s*account|forgot\s*password|welcome\s*to|request\s*could\s*not\s*be\s*satisfied|access\s*denied|404\s*not\s*found)\b.*"
     r")$",
     re.IGNORECASE,
 )
@@ -289,6 +315,46 @@ class FastGateNoiseFilter:
                 classification="Not Impactful",
                 event_type="Financial Distress",
                 rationale="Not Impactful under the Bad Article Taxonomy (no disruption signal) as routine quarterly dividend declarations reflect normal business operations without disruption.",
+            )
+
+        # 8b. Crime
+        if CRIME_PATTERNS.search(clean_title):
+            return NoiseFilterVerdict(
+                is_noise=True,
+                category="minor_crime",
+                classification="Not Impactful",
+                event_type="Other",
+                rationale="Not Impactful. Routine local crime does not disrupt industrial supply chains.",
+            )
+
+        # 11. Consumer Electronics
+        if CONSUMER_TECH_PATTERNS.search(clean_title):
+            return NoiseFilterVerdict(
+                is_noise=True,
+                category="consumer_tech",
+                classification="Not Impactful",
+                event_type="Other",
+                rationale="Not Impactful. Consumer product releases and deals do not represent supply chain disruptions.",
+            )
+
+        # 12. Entertainment
+        if ENTERTAINMENT_PATTERNS.search(clean_title):
+            return NoiseFilterVerdict(
+                is_noise=True,
+                category="local_entertainment",
+                classification="Not Impactful",
+                event_type="Other",
+                rationale="Not Impactful. Local entertainment events have no supply chain relevance.",
+            )
+
+        # 13. Hospitality
+        if HOSPITALITY_PATTERNS.search(clean_title):
+            return NoiseFilterVerdict(
+                is_noise=True,
+                category="hospitality",
+                classification="Not Impactful",
+                event_type="Other",
+                rationale="Not Impactful. Restaurants, pubs, and hotels are outside the industrial supply chain scope.",
             )
 
         # 14. Real Estate
