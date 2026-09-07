@@ -170,7 +170,7 @@ CONSUMER_TECH_PATTERNS = re.compile(
 # 12. Local Entertainment / Arts
 ENTERTAINMENT_PATTERNS = re.compile(
     r"(?:"
-    r"\b(?:film\s*festival|concert\s*tour|art\s*exhibition|theatre|theater|curtain\s*rises|movie\s*premiere|box\s*office|comic\s*con|arcade|music\s*festival)\b"
+    r"\b(?:film\s*festival|concert\s*tour|art\s*exhibition|theatre|theater|curtain\s*rises|movie\s*premiere|box\s*office|comic\s*con|arcade|music\s*festival|the\s*release|gaming)\b"
     r")",
     re.IGNORECASE,
 )
@@ -186,7 +186,7 @@ HOSPITALITY_PATTERNS = re.compile(
 # 14. Residential Real Estate
 REAL_ESTATE_PATTERNS = re.compile(
     r"(?:"
-    r"\b(?:apartment\s*complex|condo|housing\s*development|residential\s*area|residential|real\s*estate\s*listing|homebuyers?|minpaku|airbnb|short-term\s*rental)\b"
+    r"\b(?:apartment\s*complex|condo|housing\s*development|residential\s*area|residential|real\s*estate\s*listing|homebuyers?|minpaku|airbnb|short-term\s*rental|renovation\s*company)\b"
     r")",
     re.IGNORECASE,
 )
@@ -213,7 +213,7 @@ MACRO_PROJECTION_PATTERNS = re.compile(
 # 17. Agriculture & Wildlife
 AGRICULTURE_PATTERNS = re.compile(
     r"(?:"
-    r"\b(?:farmed\s*fish|fish\s*to\s*die|crop\s*damage|agriculture|poultry\s*farm|bird\s*flu\s*in\s*flock|cattle|livestock|aquaculture)\b"
+    r"\b(?:farmed\s*fish|fish\s*to\s*die|crop\s*damage|agriculture|poultry\s*farm|bird\s*flu\s*in\s*flock|cattle|livestock|aquaculture|slaughterhouse)\b"
     r")",
     re.IGNORECASE,
 )
@@ -221,7 +221,7 @@ AGRICULTURE_PATTERNS = re.compile(
 # 18. Local Retail & Showrooms
 RETAIL_PATTERNS = re.compile(
     r"(?:"
-    r"\b(?:showroom|car\s*dealership|dealership|retail\s*store|grocery\s*store|supermarket|cake\s*shop|bakery|shopping\s*mall|department\s*store|boutique|public\s*market|market\s*remains\s*closed)\b"
+    r"\b(?:showroom|car\s*dealership|dealership|retail\s*store|grocery\s*store|supermarket|cake\s*shop|bakery|shopping\s*mall|department\s*store|boutique|public\s*market|market\s*remains\s*closed|books\s*&\s*tea|tea\s*shop|furniture\s*store|gas\s*station)\b"
     r")",
     re.IGNORECASE,
 )
