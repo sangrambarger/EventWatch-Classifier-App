@@ -194,7 +194,8 @@ REAL_ESTATE_PATTERNS = re.compile(
 # 15. Web Portal & Scraping Artifacts
 WEB_PORTAL_PATTERNS = re.compile(
     r"^(?:"
-    r".*\b(?:login|sign\s*in|my\s*account|subscribe\s*now|create\s*account|forgot\s*password|welcome\s*to|request\s*could\s*not\s*be\s*satisfied|access\s*denied|404\s*not\s*found)\b.*"
+    r".*\b(?:login|sign\s*in|my\s*account|subscribe\s*now|create\s*account|forgot\s*password|welcome\s*to|request\s*could\s*not\s*be\s*satisfied|access\s*denied|404\s*not\s*found|messages\s*in\s*quarantine)\b.*"
+    r"|^email:\s*.*"
     r")$",
     re.IGNORECASE,
 )
