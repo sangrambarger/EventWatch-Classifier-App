@@ -194,13 +194,21 @@ REAL_ESTATE_PATTERNS = re.compile(
 # 15. Web Portal & Scraping Artifacts
 WEB_PORTAL_PATTERNS = re.compile(
     r"^(?:"
-    r".*\b(?:login|sign\s*in|my\s*account|subscribe\s*now|create\s*account|forgot\s*password|welcome\s*to|request\s*could\s*not\s*be\s*satisfied|access\s*denied|404\s*not\s*found|messages\s*in\s*quarantine|eclips\s*web)\b.*"
+    r".*\b(?:login|sign\s*in|my\s*account|subscribe\s*now|create\s*account|forgot\s*password|welcome\s*to|request\s*could\s*not\s*be\s*satisfied|access\s*denied|404\s*not\s*found|messages\s*in\s*quarantine|eclips\s*web|newspaper\s*\||news\s*and\s*breaking\s*news)\b.*"
     r"|^email:\s*.*"
     r")$",
     re.IGNORECASE,
 )
 
-# 16. Clickbait, Questions & Giveaways
+# 16. Future Macroeconomic Projections
+MACRO_PROJECTION_PATTERNS = re.compile(
+    r"(?:"
+    r"\b(?:could\s*face\s*shortage|projected\s*by\s*20\d\d|expected\s*to\s*grow|forecast\s*to)\b"
+    r")",
+    re.IGNORECASE,
+)
+
+# 17. Clickbait, Questions & Giveaways
 CLICKBAIT_PATTERNS = re.compile(
     r"^(?:"
     r".*\b(?:would\s*you|are\s*you|can\s*you|should\s*you)\s+.*\?"
@@ -256,6 +264,26 @@ class FastGateNoiseFilter:
                 classification="Not Impactful",
                 event_type="Other",
                 rationale="Not Impactful under the Bad Article Taxonomy (celebrity story) as entertainment news and celebrity gossip carry zero supply chain relevance.",
+            )
+
+        # 3b. Cryptocurrency Hacks
+        if CRYPTO_PATTERNS.search(clean_title):
+            return NoiseFilterVerdict(
+                is_noise=True,
+                category="cryptocurrency_noise",
+                classification="Not Impactful",
+                event_type="Cyber Attack",
+                rationale="Not Impactful. Cryptocurrency and DeFi hacks have zero operational impact on physical industrial supply chains.",
+            )
+
+        # Macro Projections
+        if MACRO_PROJECTION_PATTERNS.search(clean_title):
+            return NoiseFilterVerdict(
+                is_noise=True,
+                category="macro_projection",
+                classification="Not Impactful",
+                event_type="Other",
+                rationale="Not Impactful. Generic macroeconomic projections or future labor shortages do not represent active disruptions.",
             )
 
         # 4. Civilian incidents
