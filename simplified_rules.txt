@@ -59,7 +59,11 @@ In Resilinc's architecture, "Mapped Partners" are registered suppliers, vendor f
   * Earthquakes (Strict Magnitude Thresholds): Do NOT classify all earthquakes as Impactful. Use these strict thresholds:
       - Japan, Taiwan, South Korea, Philippines, Indonesia, China: Impactful ONLY IF Magnitude is **5.0 or above**. If < 5.0, it is **Not Impactful**.
       - Rest of the World (e.g., Fiji, USA, Europe): Impactful ONLY IF Magnitude is **5.7 or above** (or explicitly reports major disruptions). If < 5.7 (e.g., 4.5M), it is **Not Impactful**.
-  * Mergers, Acquisitions & Business Sales = Impactful: ANY mention of a completed or agreed corporate merger, acquisition, business sale, or takeover must be classified as **Impactful**. **EXCEPTION**: Rejected takeover bids or pure rumors with no transaction are **Not Impactful**.
+  * Mergers, Acquisitions & Business Sales: Classify as **Impactful** when the initial deal is announced (pre-regulatory approval) if the companies belong to our core industrial/logistics verticals (e.g., shipyards, manufacturing, cargo, specialty chemicals). **EXCEPTIONS**:
+      - Retail, consulting, staffing, hospitality, investment/finance, or insurance M&A are **Not Impactful** (unless a Fortune 500 mapped partner is involved).
+      - Rejected takeover bids or pure rumors are **Not Impactful**.
+      - M&A Completions are **Not Impactful** if it's just closing a previously announced deal.
+  * Military Drills & Geopolitical Escalation: Do NOT classify regular, anticipated, or periodic (quarterly/annual) joint military exercises as Impactful. Classify as **Impactful** (Event Type: Geopolitical) ONLY IF it involves: escalating military presence, border invasion threats, live-fire exercises near contested waters/airspace (e.g., China-Taiwan, NATO-Russia), naval blockade simulations, or rapid mobilization.
   * Positive News = NOT Impactful: New facility openings, achieving commercial production milestones, or expanding operations are **Not Impactful** because they do not cause disruptions. We only report disruptions.
   * Local Retail Crimes/Fires = NOT Impactful: Fires, arson, or crimes occurring at local retail shops (e.g., cake shops, bakeries, markets) are **Not Impactful**, even if an executive or owner is injured, as they do not affect global industrial supply chains.
   * Environmental Nuisances = NOT Impactful: Complaints about "foul odors", noise, or routine environmental nuisances at a factory are **Not Impactful** unless they explicitly result in a facility shutdown, strike, or regulatory fine.
