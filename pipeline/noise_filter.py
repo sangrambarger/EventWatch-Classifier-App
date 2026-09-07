@@ -186,7 +186,7 @@ HOSPITALITY_PATTERNS = re.compile(
 # 14. Residential Real Estate
 REAL_ESTATE_PATTERNS = re.compile(
     r"(?:"
-    r"\b(?:apartment\s*complex|condo|housing\s*development|residential|real\s*estate\s*listing|homebuyers?)\b"
+    r"\b(?:apartment\s*complex|condo|housing\s*development|residential\s*area|residential|real\s*estate\s*listing|homebuyers?|minpaku|airbnb|short-term\s*rental)\b"
     r")",
     re.IGNORECASE,
 )
