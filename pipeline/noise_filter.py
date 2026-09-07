@@ -149,6 +149,47 @@ UNRELATED_NOISE_PATTERNS = re.compile(
     re.IGNORECASE,
 )
 
+# 13. Hospitality
+HOSPITALITY_PATTERNS = re.compile(
+    r"(?:"
+    r"\b(?:hotel|motel|resort|restaurant|cafe|bar|pub|nightclub|eatery)\b"
+    r")",
+    re.IGNORECASE,
+)
+
+# 14. Residential Real Estate
+REAL_ESTATE_PATTERNS = re.compile(
+    r"(?:"
+    r"\b(?:apartment\s*complex|condo|housing\s*development|residential|real\s*estate\s*listing|homebuyers?)\b"
+    r")",
+    re.IGNORECASE,
+)
+
+# 15. Web Portal & Scraping Artifacts
+WEB_PORTAL_PATTERNS = re.compile(
+    r"^(?:"
+    r".*\b(?:login|sign\s*in|my\s*account|subscribe\s*now|create\s*account|forgot\s*password|welcome\s*to)\b.*"
+    r")$",
+    re.IGNORECASE,
+)
+
+# 16. Clickbait, Questions & Giveaways
+CLICKBAIT_PATTERNS = re.compile(
+    r"^(?:"
+    r".*\b(?:would\s*you|are\s*you|can\s*you|should\s*you)\s+.*\?"
+    r"|.*\b(?:freebie|giveaway|sweepstakes|win\s*a\s*free|quiz|test\s*your\s*knowledge)\b.*"
+    r")$",
+    re.IGNORECASE,
+)
+
+# 17. Generic Commodity & Stock Prices
+COMMODITY_PRICE_PATTERNS = re.compile(
+    r"^(?:"
+    r".*\b(?:oil\s*prices\s*rise|oil\s*prices\s*fall|stocks\s*(?:rally|tumble|rise|fall)|wall\s*street\s*(?:rallies|tumbles))\b.*"
+    r"|.*\b(?:gold\s*prices|crude\s*oil|stock\s*market\s*update)\b.*"
+    r")$",
+    re.IGNORECASE,
+)
 
 class FastGateNoiseFilter:
     """Pre-LLM fast heuristic regex filter for Bad Article Taxonomy."""
@@ -257,6 +298,46 @@ class FastGateNoiseFilter:
                 classification="Not Impactful",
                 event_type="Financial Distress",
                 rationale="Not Impactful under the Bad Article Taxonomy (no disruption signal) as routine quarterly dividend declarations reflect normal business operations without disruption.",
+            )
+
+        # 14. Real Estate
+        if REAL_ESTATE_PATTERNS.search(clean_title):
+            return NoiseFilterVerdict(
+                is_noise=True,
+                category="residential_real_estate",
+                classification="Not Impactful",
+                event_type="Other",
+                rationale="Not Impactful. Residential real estate does not affect industrial supply chains.",
+            )
+
+        # 15. Web Portals & Logins
+        if WEB_PORTAL_PATTERNS.search(clean_title):
+            return NoiseFilterVerdict(
+                is_noise=True,
+                category="web_portal_artifact",
+                classification="Not Impactful",
+                event_type="Other",
+                rationale="Not Impactful. This is a web scraping artifact (login/subscription page) containing zero event data.",
+            )
+
+        # 16. Clickbait & Questions
+        if CLICKBAIT_PATTERNS.search(clean_title):
+            return NoiseFilterVerdict(
+                is_noise=True,
+                category="clickbait_or_question",
+                classification="Not Impactful",
+                event_type="Other",
+                rationale="Not Impactful. This is a generic clickbait article, giveaway, or hypothetical question.",
+            )
+
+        # 17. Commodity & Stock Prices
+        if COMMODITY_PRICE_PATTERNS.search(clean_title):
+            return NoiseFilterVerdict(
+                is_noise=True,
+                category="generic_market_pricing",
+                classification="Not Impactful",
+                event_type="Other",
+                rationale="Not Impactful. Routine stock market and commodity price reporting carries zero specific supply chain disruption events.",
             )
 
         # 10. Unrelated noise
