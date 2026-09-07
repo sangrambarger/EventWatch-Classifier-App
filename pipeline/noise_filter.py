@@ -28,7 +28,8 @@ CRITICAL_INDUSTRIAL_KEYWORDS = re.compile(
     r"\b(?:semiconductor|wafer|cleanroom|lithography|fab\b|refinery|chemical\s*plant|"
     r"manufacturing\s*plant|industrial\s*park|port\s*(?:of|terminal)|container\s*ship|"
     r"freight\s*rail|force\s*majeure|strike|walkout|hazmat|toxic\s*leak|substation\s*fire|"
-    r"cyber\s*attack|ransomware|fda|recalled|bankruptcy|chapter\s*11)\b",
+    r"cyber\s*attack|ransomware|fda|recalled|bankruptcy|chapter\s*11|copyright|patent|"
+    r"infringement|intellectual\s*property|trademark)\b",
     re.IGNORECASE,
 )
 
