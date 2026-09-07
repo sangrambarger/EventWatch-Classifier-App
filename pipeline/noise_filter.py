@@ -208,7 +208,15 @@ MACRO_PROJECTION_PATTERNS = re.compile(
     re.IGNORECASE,
 )
 
-# 17. Clickbait, Questions & Giveaways
+# 17. Agriculture & Wildlife
+AGRICULTURE_PATTERNS = re.compile(
+    r"(?:"
+    r"\b(?:farmed\s*fish|fish\s*to\s*die|crop\s*damage|agriculture|poultry\s*farm|bird\s*flu\s*in\s*flock|cattle|livestock|aquaculture)\b"
+    r")",
+    re.IGNORECASE,
+)
+
+# 18. Clickbait, Questions & Giveaways
 CLICKBAIT_PATTERNS = re.compile(
     r"^(?:"
     r".*\b(?:would\s*you|are\s*you|can\s*you|should\s*you)\s+.*\?"
@@ -284,6 +292,16 @@ class FastGateNoiseFilter:
                 classification="Not Impactful",
                 event_type="Other",
                 rationale="Not Impactful. Generic macroeconomic projections or future labor shortages do not represent active disruptions.",
+            )
+
+        # Agriculture and Wildlife
+        if AGRICULTURE_PATTERNS.search(clean_title):
+            return NoiseFilterVerdict(
+                is_noise=True,
+                category="agriculture_noise",
+                classification="Not Impactful",
+                event_type="Other",
+                rationale="Not Impactful. Incidents primarily affecting agriculture, farming, or wildlife do not disrupt industrial supply chains.",
             )
 
         # 4. Civilian incidents
