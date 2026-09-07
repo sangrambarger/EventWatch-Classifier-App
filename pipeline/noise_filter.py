@@ -197,6 +197,7 @@ WEB_PORTAL_PATTERNS = re.compile(
     r".*\b(?:login|sign\s*in|my\s*account|subscribe\s*now|create\s*account|forgot\s*password|welcome\s*to|request\s*could\s*not\s*be\s*satisfied|access\s*denied|404\s*not\s*found|messages\s*in\s*quarantine|eclips\s*web|newspaper\s*\||news\s*and\s*breaking\s*news|taketonews)\b.*"
     r"|^email:\s*.*"
     r"|^stock\s*alert:\s*.*"
+    r"|^(?:power\s*outage\s*in|fire\s*breaks\s*out\s*at|earthquake\s*in)\s*$"
     r")$",
     re.IGNORECASE,
 )
