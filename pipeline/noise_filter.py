@@ -221,7 +221,7 @@ AGRICULTURE_PATTERNS = re.compile(
 # 18. Local Retail & Showrooms
 RETAIL_PATTERNS = re.compile(
     r"(?:"
-    r"\b(?:showroom|car\s*dealership|dealership|retail\s*store|grocery\s*store|supermarket|cake\s*shop|bakery|shopping\s*mall|department\s*store|boutique)\b"
+    r"\b(?:showroom|car\s*dealership|dealership|retail\s*store|grocery\s*store|supermarket|cake\s*shop|bakery|shopping\s*mall|department\s*store|boutique|public\s*market|market\s*remains\s*closed)\b"
     r")",
     re.IGNORECASE,
 )
