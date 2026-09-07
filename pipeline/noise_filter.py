@@ -217,7 +217,15 @@ AGRICULTURE_PATTERNS = re.compile(
     re.IGNORECASE,
 )
 
-# 18. Clickbait, Questions & Giveaways
+# 18. Local Retail & Showrooms
+RETAIL_PATTERNS = re.compile(
+    r"(?:"
+    r"\b(?:showroom|car\s*dealership|dealership|retail\s*store|grocery\s*store|supermarket|cake\s*shop|bakery|shopping\s*mall|department\s*store|boutique)\b"
+    r")",
+    re.IGNORECASE,
+)
+
+# 19. Clickbait, Questions & Giveaways
 CLICKBAIT_PATTERNS = re.compile(
     r"^(?:"
     r".*\b(?:would\s*you|are\s*you|can\s*you|should\s*you)\s+.*\?"
@@ -303,6 +311,16 @@ class FastGateNoiseFilter:
                 classification="Not Impactful",
                 event_type="Other",
                 rationale="Not Impactful. Incidents primarily affecting agriculture, farming, or wildlife do not disrupt industrial supply chains.",
+            )
+
+        # Local Retail and Showrooms
+        if RETAIL_PATTERNS.search(clean_title):
+            return NoiseFilterVerdict(
+                is_noise=True,
+                category="retail_noise",
+                classification="Not Impactful",
+                event_type="Other",
+                rationale="Not Impactful. Incidents at local retail stores, showrooms, or supermarkets do not disrupt global industrial supply chains.",
             )
 
         # 4. Civilian incidents
