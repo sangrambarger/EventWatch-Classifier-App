@@ -202,10 +202,10 @@ WEB_PORTAL_PATTERNS = re.compile(
     re.IGNORECASE,
 )
 
-# 16. Future Macroeconomic Projections
+# 16. Future Macroeconomic Projections & Revenue Reports
 MACRO_PROJECTION_PATTERNS = re.compile(
     r"(?:"
-    r"\b(?:could\s*face\s*shortage|projected\s*by\s*20\d\d|expected\s*to\s*grow|forecast\s*to|one\s*in\s*(?:five|ten|four|three|two)\s*companies|feel\s*the\s*impact\s*of)\b"
+    r"\b(?:could\s*face\s*shortage|projected\s*by\s*20\d\d|expected\s*to\s*grow|forecast\s*to|one\s*in\s*(?:five|ten|four|three|two)\s*companies|feel\s*the\s*impact\s*of|collections\s*hit\s*record|revenue\s*records?|tax\s*collections)\b"
     r")",
     re.IGNORECASE,
 )
