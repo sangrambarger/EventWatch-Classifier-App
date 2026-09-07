@@ -194,7 +194,7 @@ REAL_ESTATE_PATTERNS = re.compile(
 # 15. Web Portal & Scraping Artifacts
 WEB_PORTAL_PATTERNS = re.compile(
     r"^(?:"
-    r".*\b(?:login|sign\s*in|my\s*account|subscribe\s*now|create\s*account|forgot\s*password|welcome\s*to|request\s*could\s*not\s*be\s*satisfied|access\s*denied|404\s*not\s*found|messages\s*in\s*quarantine)\b.*"
+    r".*\b(?:login|sign\s*in|my\s*account|subscribe\s*now|create\s*account|forgot\s*password|welcome\s*to|request\s*could\s*not\s*be\s*satisfied|access\s*denied|404\s*not\s*found|messages\s*in\s*quarantine|eclips\s*web)\b.*"
     r"|^email:\s*.*"
     r")$",
     re.IGNORECASE,
@@ -213,13 +213,13 @@ class FastGateNoiseFilter:
     """Pre-LLM fast heuristic regex filter for Bad Article Taxonomy."""
 
     def evaluate(self, title: str) -> NoiseFilterVerdict:
-        if not title or not title.strip():
+        if not title or not title.strip() or title.strip().isdigit() or len(title.strip()) <= 3:
             return NoiseFilterVerdict(
                 is_noise=True,
                 category="very_thin_summary",
                 classification="Not Impactful",
                 event_type="Other",
-                rationale="Not Impactful under the Bad Article Taxonomy (very thin summary) as the title is empty or lacks substantive content.",
+                rationale="Not Impactful under the Bad Article Taxonomy (very thin summary) as the title is empty, purely numeric, or lacks substantive content.",
             )
 
         clean_title = title.strip()
