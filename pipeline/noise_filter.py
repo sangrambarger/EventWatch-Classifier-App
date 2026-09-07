@@ -167,18 +167,18 @@ CONSUMER_TECH_PATTERNS = re.compile(
     re.IGNORECASE,
 )
 
-# 12. Local Entertainment / Events
+# 12. Local Entertainment / Arts
 ENTERTAINMENT_PATTERNS = re.compile(
     r"(?:"
-    r"\b(?:film\s*festival|concert\s*tour|art\s*exhibition|theatre\s*production|movie\s*premiere|box\s*office|comic\s*con|arcade|music\s*festival)\b"
+    r"\b(?:film\s*festival|concert\s*tour|art\s*exhibition|theatre|theater|curtain\s*rises|movie\s*premiere|box\s*office|comic\s*con|arcade|music\s*festival)\b"
     r")",
     re.IGNORECASE,
 )
 
-# 13. Hospitality
+# 13. Hospitality & Food Service
 HOSPITALITY_PATTERNS = re.compile(
     r"(?:"
-    r"\b(?:hotel|motel|resort|restaurant|cafe|bar|pub|nightclub|eatery)\b"
+    r"\b(?:hotel|motel|resort|restaurant|cafe|bar|beach\s*bar|pub|nightclub|eatery)\b"
     r")",
     re.IGNORECASE,
 )
@@ -194,8 +194,9 @@ REAL_ESTATE_PATTERNS = re.compile(
 # 15. Web Portal & Scraping Artifacts
 WEB_PORTAL_PATTERNS = re.compile(
     r"^(?:"
-    r".*\b(?:login|sign\s*in|my\s*account|subscribe\s*now|create\s*account|forgot\s*password|welcome\s*to|request\s*could\s*not\s*be\s*satisfied|access\s*denied|404\s*not\s*found|messages\s*in\s*quarantine|eclips\s*web|newspaper\s*\||news\s*and\s*breaking\s*news)\b.*"
+    r".*\b(?:login|sign\s*in|my\s*account|subscribe\s*now|create\s*account|forgot\s*password|welcome\s*to|request\s*could\s*not\s*be\s*satisfied|access\s*denied|404\s*not\s*found|messages\s*in\s*quarantine|eclips\s*web|newspaper\s*\||news\s*and\s*breaking\s*news|taketonews)\b.*"
     r"|^email:\s*.*"
+    r"|^stock\s*alert:\s*.*"
     r")$",
     re.IGNORECASE,
 )
@@ -203,7 +204,7 @@ WEB_PORTAL_PATTERNS = re.compile(
 # 16. Future Macroeconomic Projections
 MACRO_PROJECTION_PATTERNS = re.compile(
     r"(?:"
-    r"\b(?:could\s*face\s*shortage|projected\s*by\s*20\d\d|expected\s*to\s*grow|forecast\s*to)\b"
+    r"\b(?:could\s*face\s*shortage|projected\s*by\s*20\d\d|expected\s*to\s*grow|forecast\s*to|one\s*in\s*(?:five|ten|four|three|two)\s*companies|feel\s*the\s*impact\s*of)\b"
     r")",
     re.IGNORECASE,
 )
