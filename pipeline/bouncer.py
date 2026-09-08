@@ -49,7 +49,9 @@ If the event is strictly regarding:
 - Civilian accidents / local crime (e.g., PG hostel collapse, residential fire, car crash, stabbing)
 - Consumer product safety / retail items (e.g., Children's book recall, dog food recall, supermarket sweep)
 - Local entertainment / sports / fashion (e.g., Fashion Week, movie release, local theatre)
-- Minor web portal artifacts / software glitches that do not affect major services
+- Retail/Restaurant accidents (e.g., cake shop fire, bakery fire, local market fire)
+- Clickbait, giveaways, generic questions (e.g., "Would you lie to get a birthday freebie?")
+- Minor web portal artifacts / software glitches that do not affect major services (e.g., "My Juta Login")
 - Routine bureaucratic corporate spam (e.g., "September 2026 Vietnam company deregistration related service information")
 
 ## PASS (Supply Chain / Industrial / Commercial)
@@ -57,7 +59,8 @@ If the event involves:
 - Manufacturing, factories, chemical plants, semiconductor fabs
 - Logistics, ports, cargo planes, container shipping, railways
 - Major mergers & acquisitions (M&A) or bankruptcies involving industrial/tech/telecom companies
-- Extreme weather, hurricanes, earthquakes affecting industrial regions
+- Extreme weather, hurricanes, earthquakes affecting industrial regions. (MANDATORY: Hurricanes/Typhoons must PASS even if they "remain offshore" or are just forming).
+- Border closures or checkpoint shutdowns. (MANDATORY: Border closures must PASS even if caused by immigration, individuals, or suspects, because they block freight).
 - Cybersecurity breaches, major regulatory actions, massive financial distress
 - IF YOU ARE UNSURE OR AMBIGUOUS, YOU MUST DEFAULT TO PASS. (High Recall Policy)
 
