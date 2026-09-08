@@ -16,12 +16,14 @@ from tqdm import tqdm
 
 from pipeline.cache import DiskCache
 from pipeline.config import PipelineConfig, get_config
-from pipeline.council_engine import EventEvaluation
+
 from pipeline.dedup import MultiTierDeduplicator
 from pipeline.exporter import export_results
 from pipeline.llm_client import CouncilLLMClient
 from pipeline.noise_filter import FastGateNoiseFilter
 from pipeline.schema_mapper import InputRecord, load_excel_records
+from pipeline.council_engine import EventEvaluation
+from pipeline.bouncer import AIBouncer
 
 
 def print_standby_guide(missing_path: Path) -> None:
@@ -164,18 +166,52 @@ def run_pipeline(
         f"{len(items_for_llm)} items sent to LLM Council Debater."
     )
 
-    # Step 4: LLM Council Multi-Role Debater Evaluation
+    # Step 3.5: AI Bouncer Triage
     if items_for_llm:
+        print(f"\n[Step 3.5/5] Executing AI Bouncer Triage (Semantic Noise Filtering)...")
+        from pipeline.bouncer import AIBouncer
+        
+        bouncer = AIBouncer(config=config, model_name=config.default_model)
+        bouncer_batches = [
+            items_for_llm[i : i + 50]
+            for i in range(0, len(items_for_llm), 50)
+        ]
+        
+        items_for_council = []
+        bouncer_drop_count = 0
+        for batch in bouncer_batches:
+            batch_input = [{"id": b["id"], "title": b["title"]} for b in batch]
+            verdicts = bouncer.evaluate_batch(batch_input)
+            for b in batch:
+                canon_id = b["id"]
+                verdict = verdicts.get(canon_id, "PASS")
+                if verdict == "DROP":
+                    canonical_evaluations[canon_id] = EventEvaluation(
+                        id=canon_id,
+                        classification="Not Impactful",
+                        event_type="Other",
+                        rationale="Not Impactful. AI Bouncer identified this as semantic noise (e.g. civilian, consumer, or entertainment)."
+                    )
+                    bouncer_drop_count += 1
+                else:
+                    items_for_council.append(b)
+                    
+        print(f"AI Bouncer dropped {bouncer_drop_count} noisy headlines. Sending {len(items_for_council)} to Main Council.")
+    else:
+        items_for_council = []
+
+    # Step 4: LLM Council Multi-Role Debater Evaluation
+    if items_for_council:
         print(f"\n[Step 4/5] Executing EventWatch Council Debater evaluation via {config.default_model}...")
         llm_client = CouncilLLMClient(config=config, model_name=config.default_model)
 
         # Batch processing
         batches = [
-            items_for_llm[i : i + config.batch_size]
-            for i in range(0, len(items_for_llm), config.batch_size)
+            items_for_council[i : i + config.batch_size]
+            for i in range(0, len(items_for_council), config.batch_size)
         ]
 
-        with tqdm(total=len(items_for_llm), desc="Council Evaluation", unit="events") as pbar:
+        with tqdm(total=len(items_for_council), desc="Council Evaluation", unit="events") as pbar:
             for batch in batches:
                 batch_input = [{"id": b["id"], "title": b["title"]} for b in batch]
                 evaluations = llm_client.evaluate_batch(batch_input)
